@@ -24,6 +24,27 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.get("/api/:date?", function(req,res){
+  let resultDate='';
+
+  let inputDate = new Date(req.params.date);
+
+  if(inputDate.toString() == "Invalid Date"){
+    //convert from unix date to normal date
+    inputDate = new Date(parseInt(req.params.date));
+    // console.log(inputDate, "Invalid Date");
+  }
+ 
+  if(inputDate.toString() == "Invalid Date") {
+    return res.json({error: "Invalid Date"});
+  } else {
+    resultDate = { unix: inputDate.getTime(), 
+    utc: inputDate.toUTCString() };
+    // console.log(resultDate);
+  }
+  return res.json(resultDate);
+  
+})
 
 
 // Listen on port set in environment variable or default to 3000
